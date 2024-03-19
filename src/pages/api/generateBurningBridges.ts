@@ -35,7 +35,7 @@ Return the cards as an array of JSON objects, with the following structure:
 
 // NOTE: app directory API routes require a different syntax.
 export const config = {
-    maxDuration: 150,
+    maxDuration: 10,
 };
 
 export default async function handler(
