@@ -1,4 +1,4 @@
-export default function Page({ data }: { data: any }) {
+export default function Page() {
   return (
     <div>
       <h1>Hi</h1>
