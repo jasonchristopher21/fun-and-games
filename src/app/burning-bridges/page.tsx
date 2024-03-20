@@ -1,13 +1,16 @@
 "use client";
+
+import React from "react";
+import { useState, useEffect } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useBurningBridgesQuery } from "@/queries/burningBridgesQuery";
+
 import loading from "@/assets/loading.gif";
+import { useBurningBridgesQuery } from "@/queries/burningBridgesQuery";
 
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
   event.preventDefault();
