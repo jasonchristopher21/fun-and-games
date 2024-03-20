@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useBurningBridgesContext } from "@/contexts/BurningBridgesProvider";
 import ReactCardFlip from "react-card-flip";
 
@@ -55,7 +55,7 @@ export default function Page() {
     <Link
       key="2"
       color="inherit"
-      href="/"
+      href="/burning-bridges"
       onClick={() => router.push("/burning-bridges")}
     >
       Burning Bridges
@@ -65,10 +65,12 @@ export default function Page() {
     </span>,
   ];
 
-  if (burningBridgesConfig && cards.length === 0) {
-    console.error("make cards first");
-    router.push("/burning-bridges");
-  }
+  useEffect(() => {
+    if (burningBridgesConfig && cards.length === 0) {
+      console.error("make cards first");
+      router.push("/burning-bridges");
+    }
+  }, []);
 
   return (
     <div className="flex flex-col h-full justify-between text-center p-10 ">
