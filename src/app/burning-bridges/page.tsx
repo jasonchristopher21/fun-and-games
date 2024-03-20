@@ -1,12 +1,13 @@
 "use client";
-
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useBurningBridgesQuery } from "@/queries/burningBridgesQuery";
+import loading from "@/assets/loading.gif";
 
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
   event.preventDefault();
@@ -93,7 +94,12 @@ export default function Home() {
       >
         Generate Cards!
       </button>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && (
+        <div className="flex flex-col text-center w-full">
+          <Image src={loading} alt="loading" className="mt-5 mx-auto" />
+          <span className="mt-2">Still loading lah ...</span>
+        </div>
+      )}
       <div className="flex flex-col gap-2 my-5">
         {generatedCards.map((item: any) => (
           <Card question={item.question} deleteQuestion={deleteQuestion} />
