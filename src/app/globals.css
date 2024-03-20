@@ -26,6 +26,7 @@ body {
     rgb(var(--background-start-rgb)); */
   max-width: 600px;
   margin: 0 auto;
+  height: 100vh;
 }
 
 @layer utilities {

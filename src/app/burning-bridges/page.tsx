@@ -8,14 +8,11 @@ import Link from "next/link";
 import TextField from "@mui/material/TextField";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useRouter } from "next/navigation";
 
 import loading from "@/assets/loading.gif";
 import { useBurningBridgesQuery } from "@/queries/burningBridgesQuery";
-
-function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
+import { useBurningBridgesContext } from "@/contexts/BurningBridgesProvider";
 
 export default function Home() {
   const [cards, setCards] = useState(10);
@@ -23,6 +20,9 @@ export default function Home() {
 
   const [finalPrompt, setFinalPrompt] = useState("");
   const [finalCards, setFinalCards] = useState(0);
+
+  const { burningBridgesConfig, setBurningBridgesConfig } =
+    useBurningBridgesContext();
 
   const [generatedCards, setGeneratedCards] = useState<{ question: string }[]>(
     []
@@ -33,12 +33,31 @@ export default function Home() {
     finalCards
   );
 
+  const router = useRouter();
+
   function deleteQuestion(question: string) {
     console.log(question);
     const filtered = generatedCards.filter(
       (item) => item.question !== question
     );
     setGeneratedCards(filtered);
+  }
+
+  function handleStartGame() {
+    // Fisher-Yates shuffle algorithm
+    const shuffle = (array: any[]) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    };
+    const shuffledCards = shuffle(generatedCards);
+    setBurningBridgesConfig({
+      ...burningBridgesConfig,
+      questions: shuffledCards,
+    });
+    router.push("/burning-bridges/play");
   }
 
   useEffect(() => {
@@ -48,17 +67,12 @@ export default function Home() {
   }, [isLoading]);
 
   const breadcrumbs = [
-    <Link key="1" color="inherit" href="/" onClick={handleClick}>
+    <Link key="1" color="inherit" href="/" onClick={() => router.push("/")}>
       Fun
     </Link>,
-    <Link
-      key="2"
-      color="inherit"
-      href="/material-ui/getting-started/installation/"
-      onClick={handleClick}
-    >
+    <span key="2" color="inherit">
       Burning Bridges
-    </Link>,
+    </span>,
   ];
 
   return (
@@ -110,7 +124,7 @@ export default function Home() {
       </div>
       {generatedCards.length > 0 && (
         <>
-          <button className="bg-accent-2 text-white font-bold w-full p-3 rounded-lg">
+          <button className="bg-accent-2 text-white font-bold w-full p-3 rounded-lg" onClick={handleStartGame}>
             Let's BURN 👿
           </button>
           <button
